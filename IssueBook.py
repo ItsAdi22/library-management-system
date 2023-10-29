@@ -12,7 +12,7 @@ cur = con.cursor()
 
 
 try:
-    cur.execute("CREATE TABLE IF NOT EXISTS issueTable (id INTEGER, name VARCHAR(255));")
+    cur.execute("CREATE TABLE IF NOT EXISTS issuetable (id INTEGER, name VARCHAR(255));")
 except Exception as e:
     print(f'Error Occurred: {e}')
 
@@ -65,7 +65,7 @@ def issue():
         print(f'status value -----> {status}')
         if bid in allBid and status == True:
 
-            insert_sql = "INSERT INTO issueTable VALUES (%s, %s)"
+            insert_sql = "INSERT INTO issuetable VALUES (%s, %s)"
             values = (bid,issueto)
             cur.execute(insert_sql, values)
             con.commit()

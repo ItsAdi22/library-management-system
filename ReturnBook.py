@@ -60,11 +60,11 @@ def returnn():
 
         try:
             if bid in allBid and status == True:
-                sql = "DELETE FROM issuetable WHERE bid = %s"
+                sql = "DELETE FROM issuetable WHERE id = %s"
                 values = (bid,)
                 cur.execute(sql,values)
                 con.commit()
-
+                print(f'ran line 67 ---------------------------> :)')
                 updateStatus = "update booktable set status = %s where bid = %s"
                 values=('avail',bid)
                 cur.execute(updateStatus,values)
@@ -75,7 +75,7 @@ def returnn():
                 allBid.clear()
                 messagebox.showinfo('Message',"Please check the book ID")
                 root.destroy()
-                return
+          
         except Exception as e:
             print(e)
             messagebox.showinfo("Search Error","The value entered is wrong, Try again")
