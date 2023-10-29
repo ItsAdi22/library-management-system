@@ -16,10 +16,7 @@ bookTable = "books"
     
 #List To store all Book IDs
 
-cur.execute("SELECT bid FROM booktable")
-allBid = cur.fetchall()
-print(f'allbid -------> {allBid}')
-allBid = [] 
+
 
 try:
     cur.execute("CREATE TABLE IF NOT EXISTS books (bid INT, title VARCHAR(255), status VARCHAR(50));")
@@ -32,6 +29,7 @@ def issue():
     global issueBtn,labelFrame,lb1,inf1,inf2,quitBtn,root,Canvas1,status
     
     bid = inf1.get()
+    bid = int(bid)
     issueto = inf2.get()
 
     issueBtn.destroy()
@@ -41,17 +39,23 @@ def issue():
     inf2.destroy()
     
     cur.execute("SELECT bid FROM booktable")
-    allBid = cur.fetchall()
+    allbookid = cur.fetchall()
 
+    allBid = []
+    for x in allbookid:
+        allBid.append(x[0])
+        
+    print(f"allbid ------> {allBid}")
 
   
     try:
-        
+        print(f'current bookid ---> {bid}')
         if bid in allBid:
             sql = ("SELECT status FROM booktable where bid = %s")
-            value = (bid)
+            value = (bid,)
             cur.execute(sql,value)
-            checkstatus = cur.fetchall()
+            checkstatus = cur.fetchone()
+            print(f"check status ----> {checkstatus}")
             for i in checkstatus:
                 check = i[0]
                 
@@ -65,12 +69,7 @@ def issue():
     except:
         messagebox.showinfo("Error","Can't fetch Book IDs")
     
-    else:
 
-        
-        
-        show = "select * from "+issueTable
-        
 
     try:
         if bid in allBid and status == True:
@@ -90,6 +89,7 @@ def issue():
             root.destroy()
         else:
             allBid.clear()
+            print(f"allbid clear ------> {allBid}")
             messagebox.showinfo('Message',"Book Already Issued")
             root.destroy()
             return
