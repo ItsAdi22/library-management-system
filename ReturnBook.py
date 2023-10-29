@@ -60,7 +60,7 @@ def returnn():
 
         try:
             if bid in allBid and status == True:
-                sql = "DELETE FROM issueTable WHERE bid = %s"
+                sql = "DELETE FROM issuetable WHERE bid = %s"
                 values = (bid,)
                 cur.execute(sql,values)
                 con.commit()

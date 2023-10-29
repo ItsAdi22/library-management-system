@@ -21,13 +21,11 @@ def deleteBook():
     
     deleteSql = "DELETE FROM booktable WHERE bid = %s;"
     data = bid
-    deleteIssue = "delete from "+issueTable+" where bid = '"+bid+"'"
+
     try:
         cur.execute(deleteSql, data)
         con.commit()
         
-        cur.execute(deleteIssue)
-        con.commit()
         messagebox.showinfo('Success',"Book Record Deleted Successfully")
     except:
         messagebox.showinfo("Please check Book ID")
