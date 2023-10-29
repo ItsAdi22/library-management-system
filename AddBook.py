@@ -66,11 +66,11 @@ def addBook():
     labelFrame.place(relx=0.1,rely=0.4,relwidth=0.8,relheight=0.4)
         
     # Book ID
-    lb1 = Label(labelFrame,text="Book ID : ", bg='black', fg='white')
-    lb1.place(relx=0.05,rely=0.2, relheight=0.08)
+    # lb1 = Label(labelFrame,text="Book ID : ", bg='black', fg='white')
+    # lb1.place(relx=0.05,rely=0.2, relheight=0.08)
         
-    bookInfo1 = Entry(labelFrame)
-    bookInfo1.place(relx=0.3,rely=0.2, relwidth=0.62, relheight=0.08)
+    # bookInfo1 = Entry(labelFrame)
+    # bookInfo1.place(relx=0.3,rely=0.2, relwidth=0.62, relheight=0.08)
         
     # Title
     lb2 = Label(labelFrame,text="Title : ", bg='black', fg='white')
