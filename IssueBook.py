@@ -80,9 +80,6 @@ def issue():
         print(f'ERROR OCCURRED: {e}')
         messagebox.showinfo("Search Error","The value entered is wrong, Try again")
     
-    print(bid)
-    print(issueto)
-    
     allBid.clear()
     
 def issueBook(): 

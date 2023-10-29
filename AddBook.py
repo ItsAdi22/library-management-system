@@ -22,11 +22,6 @@ def bookRegister():
     except Exception as e:
         print(f'error ------> {e}')
         messagebox.showinfo("Error","Can't add data into Database")
-    
-    print(title)
-    print(author)
-    print(status)
-
 
     root.destroy()
     
