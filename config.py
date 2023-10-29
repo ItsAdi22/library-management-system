@@ -1,12 +1,13 @@
-import mysql.connector
+import pymysql
 
 # CONFIG - 1 (DEFAULT CONFIG)
 
-MyDB = mysql.connector.connect(
-    host =  "65.21.238.121",
-    user = "u30_waUv9b64uD",
-    database = "s30_python",
-    password = "r=m9AdANJe!ntQyQQux+kMh4"
-)
+host = 'localhost'
+user = 'root'
+mypass = ""
+mydatabase="db"
 
-print("Database Connected",MyDB)
+con = pymysql.connect(host=host,user=user,password=mypass,database=mydatabase)
+cur = con.cursor()
+
+print("Database Connected",cur)
