@@ -21,16 +21,10 @@ def returnn():
     
     global SubmitBtn,labelFrame,lb1,bookInfo1,quitBtn,root,Canvas1,status
     
-    try:
-        cur.execute("CREATE TABLE IF NOT EXISTS books (bid INT, title VARCHAR(255), status VARCHAR(50));")
-        cur.execute("CREATE TABLE IF NOT EXISTS books_issued (bid INT, title VARCHAR(255), status VARCHAR(50));")
-    except Exception as e:
-        print(f'Error Occurred: {e}')
 
-    
     bid = bookInfo1.get()
 
-    extractBid = "select bid from "+issueTable
+    extractBid = "select bid from +issueTable"
     try:
         cur.execute(extractBid)
         con.commit()

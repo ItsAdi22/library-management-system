@@ -11,7 +11,7 @@ con = pymysql.connect(host="localhost",user="root",password="",database=mydataba
 cur = con.cursor()
 
 # Enter Table Names here
-issueTable = "books_issued" 
+
 bookTable = "books"
     
 #List To store all Book IDs
@@ -20,7 +20,7 @@ bookTable = "books"
 
 try:
     cur.execute("CREATE TABLE IF NOT EXISTS books (bid INT, title VARCHAR(255), status VARCHAR(50));")
-    cur.execute("CREATE TABLE IF NOT EXISTS books_issued (id INTEGER, name VARCHAR(255));")
+    cur.execute("CREATE TABLE IF NOT EXISTS issueTable (id INTEGER, name VARCHAR(255));")
 except Exception as e:
     print(f'Error Occurred: {e}')
 
@@ -56,8 +56,8 @@ def issue():
             cur.execute(sql,value)
             checkstatus = cur.fetchone()
             print(f"check status ----> {checkstatus[0]} ---->type: {type(checkstatus)}")
-                 
-            if checkstatus[0] == 'avail':
+                
+            if str(checkstatus[0]) == 'avail': 
                 status = True
             else:
                 status = False
@@ -70,15 +70,16 @@ def issue():
 
 
     try:
+        print(f'status value -----> {status}')
         if bid in allBid and status == True:
 
             insert_sql = "INSERT INTO issueTable VALUES (%s, %s)"
             values = (bid,issueto)
             cur.execute(insert_sql, values)
+            con.commit()
         
-            updateStatus = "update "+bookTable+" set status = 'issued' where bid = '"+bid+"'"
             update_sql = "UPDATE bookTable SET status = 'issued' WHERE bid = %s"
-            value = (bid)
+            value = (bid,)
             cur.execute(update_sql,bid)
             con.commit()
             
@@ -91,7 +92,8 @@ def issue():
             messagebox.showinfo('Message',"Book Already Issued")
             root.destroy()
             return
-    except:
+    except Exception as e:
+        print(f'ERROR OCCURRED: {e}')
         messagebox.showinfo("Search Error","The value entered is wrong, Try again")
     
     print(bid)
