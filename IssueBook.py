@@ -23,7 +23,7 @@ allBid = []
 
 try:
     cur.execute("CREATE TABLE IF NOT EXISTS books (bid INT, title VARCHAR(255), status VARCHAR(50));")
-    cur.execute("CREATE TABLE IF NOT EXISTS books_issued (bid INT, title VARCHAR(255), status VARCHAR(50));")
+    cur.execute("CREATE TABLE IF NOT EXISTS books_issued (id INTEGER, name VARCHAR(255));")
 except Exception as e:
     print(f'Error Occurred: {e}')
 
@@ -66,16 +66,26 @@ def issue():
         messagebox.showinfo("Error","Can't fetch Book IDs")
     
     else:
-        issueSql = "insert into "+issueTable+" values ('"+bid+"','"+issueto+"')"
+
+        
+        
         show = "select * from "+issueTable
         
-        updateStatus = "update "+bookTable+" set status = 'issued' where bid = '"+bid+"'"
+
     try:
         if bid in allBid and status == True:
-            cur.execute(issueSql)
+
+            insert_sql = "INSERT INTO issueTable VALUES (%s, %s)"
+            values = (bid,issueto)
+            cur.execute(insert_sql, values)
+        
+            updateStatus = "update "+bookTable+" set status = 'issued' where bid = '"+bid+"'"
+            update_sql = "UPDATE bookTable SET status = 'issued' WHERE bid = %s"
+            value = (bid)
+            cur.execute(update_sql,bid)
             con.commit()
-            cur.execute(updateStatus)
-            con.commit()
+            
+            
             messagebox.showinfo('Success',"Book Issued Successfully")
             root.destroy()
         else:
