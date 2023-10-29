@@ -55,14 +55,12 @@ def issue():
             value = (bid,)
             cur.execute(sql,value)
             checkstatus = cur.fetchone()
-            print(f"check status ----> {checkstatus}")
-            for i in checkstatus:
-                check = i[0]
-                
-                if check == 'avail':
-                    status = True
-                else:
-                    status = False
+            print(f"check status ----> {checkstatus[0]} ---->type: {type(checkstatus)}")
+                 
+            if checkstatus[0] == 'avail':
+                status = True
+            else:
+                status = False
 
         else:
             messagebox.showinfo("Error","Book ID not present")
