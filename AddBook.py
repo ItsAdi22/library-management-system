@@ -1,18 +1,18 @@
 from tkinter import *
 from PIL import ImageTk,Image
 from tkinter import messagebox
-import pymysql
+from config import *
 
 def bookRegister():
     
-    bid = bookInfo1.get()
+    # bid = bookInfo1.get()
     title = bookInfo2.get()
     author = bookInfo3.get()
     status = bookInfo4.get()
     status = status.lower()
     
-    insertBooks = "INSERT INTO booktable (bid, title, author, status) VALUES (%s, %s, %s, %s)"
-    data = (bid, title, author, status)
+    insertBooks = "INSERT INTO booktable (title, author, status) VALUES (%s, %s, %s)"
+    data = (title, author, status)
     
     try:
         cur.execute('CREATE TABLE IF NOT EXISTS booktable ( bid INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, status VARCHAR(50) );')
@@ -23,7 +23,6 @@ def bookRegister():
         print(f'error ------> {e}')
         messagebox.showinfo("Error","Can't add data into Database")
     
-    print(bid)
     print(title)
     print(author)
     print(status)
@@ -39,16 +38,6 @@ def addBook():
     root.title("Library")
     root.minsize(width=400,height=400)
     root.geometry("600x500")
-
-    # Add your own database name and password here to reflect in the code
-    mypass = "root"
-    mydatabase="db"
-
-    con = pymysql.connect(host="localhost",user="root",password="",database=mydatabase)
-    cur = con.cursor()
-
-    # Enter Table Names here
-    bookTable = "books" # Book Table
 
     Canvas1 = Canvas(root)
     

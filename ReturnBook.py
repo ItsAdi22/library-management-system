@@ -1,19 +1,7 @@
 from tkinter import *
 from PIL import ImageTk,Image
 from tkinter import messagebox
-import pymysql
-
-# Add your own database name and password here to reflect in the code
-mypass = ""
-mydatabase="db"
-
-con = pymysql.connect(host="localhost",user="root",password="",database=mydatabase)
-cur = con.cursor()
-
-# Enter Table Names here
-issueTable = "books_issued" #Issue Table
-bookTable = "books" #Book Table
-
+from config import *
 
 def returnn():
     
@@ -44,9 +32,7 @@ def returnn():
 
 
             if str(checkstatus[0]) == 'issued': 
-               
                 status = True
-                print(f'the status is  -----> {status}')
             else:
                 status = False
 
@@ -64,7 +50,7 @@ def returnn():
                 values = (bid,)
                 cur.execute(sql,values)
                 con.commit()
-                print(f'ran line 67 ---------------------------> :)')
+                
                 updateStatus = "update booktable set status = %s where bid = %s"
                 values=('avail',bid)
                 cur.execute(updateStatus,values)
