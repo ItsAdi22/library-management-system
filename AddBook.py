@@ -11,7 +11,7 @@ def bookRegister():
     status = bookInfo4.get()
     status = status.lower()
     
-    insertBooks = "INSERT INTO bookTable (bid, title, author, status) VALUES (%s, %s, %s, %s)"
+    insertBooks = "INSERT INTO booktable (bid, title, author, status) VALUES (%s, %s, %s, %s)"
     data = (bid, title, author, status)
     
     try:

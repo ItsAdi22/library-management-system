@@ -15,63 +15,74 @@ issueTable = "books_issued" #Issue Table
 bookTable = "books" #Book Table
 
 
-allBid = [] #List To store all Book IDs
-
 def returnn():
     
     global SubmitBtn,labelFrame,lb1,bookInfo1,quitBtn,root,Canvas1,status
     
 
     bid = bookInfo1.get()
+    bid = int(bid)
 
-    extractBid = "select bid from +issueTable"
+
     try:
-        cur.execute(extractBid)
-        con.commit()
-        for i in cur:
-            allBid.append(i[0])
+        cur.execute("SELECT bid FROM booktable")
+        allbookid = cur.fetchall()
+        
+        allBid = []
+        for x in allbookid:
+            allBid.append(x[0])
+
         
         if bid in allBid:
-            checkAvail = "select status from "+bookTable+" where bid = '"+bid+"'"
-            cur.execute(checkAvail)
-            con.commit()
-            for i in cur:
-                check = i[0]
-                
-            if check == 'issued':
+            print(f'the bid is {bid} and the allbid is {allBid}')
+            
+            sql = ("SELECT status FROM booktable where bid = %s")
+            values = (bid,)
+            cur.execute(sql,values)
+            checkstatus = cur.fetchone()
+            print(f"check status ----> {checkstatus[0]} ---->type: {type(checkstatus)}")
+
+
+            if str(checkstatus[0]) == 'issued': 
+               
                 status = True
+                print(f'the status is  -----> {status}')
             else:
                 status = False
 
         else:
             messagebox.showinfo("Error","Book ID not present")
-    except:
+    except Exception as e:
+        print(f'ERROR OCCURRED: {e}')
         messagebox.showinfo("Error","Can't fetch Book IDs")
     
+    else:
+
+        try:
+            if bid in allBid and status == True:
+                sql = "DELETE FROM issueTable WHERE bid = %s"
+                values = (bid,)
+                cur.execute(sql,values)
+                con.commit()
+
+                updateStatus = "update booktable set status = %s where bid = %s"
+                values=('avail',bid)
+                cur.execute(updateStatus,values)
+                con.commit()
+
+                messagebox.showinfo('Success',"Book Returned Successfully")
+            else:
+                allBid.clear()
+                messagebox.showinfo('Message',"Please check the book ID")
+                root.destroy()
+                return
+        except Exception as e:
+            print(e)
+            messagebox.showinfo("Search Error","The value entered is wrong, Try again")
     
-    issueSql = "delete from "+issueTable+" where bid = '"+bid+"'"
-  
-    print(bid in allBid)
-    print(status)
-    updateStatus = "update "+bookTable+" set status = 'avail' where bid = '"+bid+"'"
-    try:
-        if bid in allBid and status == True:
-            cur.execute(issueSql)
-            con.commit()
-            cur.execute(updateStatus)
-            con.commit()
-            messagebox.showinfo('Success',"Book Returned Successfully")
-        else:
-            allBid.clear()
-            messagebox.showinfo('Message',"Please check the book ID")
-            root.destroy()
-            return
-    except:
-        messagebox.showinfo("Search Error","The value entered is wrong, Try again")
     
-    
-    allBid.clear()
-    root.destroy()
+        allBid.clear()
+        root.destroy()
     
 def returnBook(): 
     

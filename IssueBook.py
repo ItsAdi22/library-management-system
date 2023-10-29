@@ -10,16 +10,8 @@ mydatabase="db"
 con = pymysql.connect(host="localhost",user="root",password="",database=mydatabase)
 cur = con.cursor()
 
-# Enter Table Names here
-
-bookTable = "books"
-    
-#List To store all Book IDs
-
-
 
 try:
-    cur.execute("CREATE TABLE IF NOT EXISTS books (bid INT, title VARCHAR(255), status VARCHAR(50));")
     cur.execute("CREATE TABLE IF NOT EXISTS issueTable (id INTEGER, name VARCHAR(255));")
 except Exception as e:
     print(f'Error Occurred: {e}')
@@ -52,8 +44,8 @@ def issue():
         print(f'current bookid ---> {bid}')
         if bid in allBid:
             sql = ("SELECT status FROM booktable where bid = %s")
-            value = (bid,)
-            cur.execute(sql,value)
+            values = (bid,)
+            cur.execute(sql,values)
             checkstatus = cur.fetchone()
             print(f"check status ----> {checkstatus[0]} ---->type: {type(checkstatus)}")
                 
@@ -78,7 +70,7 @@ def issue():
             cur.execute(insert_sql, values)
             con.commit()
         
-            update_sql = "UPDATE bookTable SET status = 'issued' WHERE bid = %s"
+            update_sql = "UPDATE booktable SET status = 'issued' WHERE bid = %s"
             value = (bid,)
             cur.execute(update_sql,bid)
             con.commit()
